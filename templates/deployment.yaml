@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: {{ .Values.xc.serviceName }}
+  name: {{ .Values.xc.serviceName }}
+spec:
+  type: NodePort
+  ports:
+    - port: {{ .Values.xc.servicePort }}
+      targetPort: {{ .Values.xc.servicePort }}
+      nodePort: {{ .Values.xc.nodePort }}
+      name: {{ .Values.xc.serviceName }}
+  selector:
+    service: {{ .Values.xc.serviceName }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: {{ .Values.xc.serviceName }}
+  name: {{ .Values.xc.serviceName }}
+spec:
+  selector:
+    matchLabels:
+      service: {{ .Values.xc.serviceName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.applicationName }}
+        component: {{ .Values.xc.serviceName }}
+        service: {{ .Values.xc.serviceName }}
+    spec:
+      containers:
+      - name: {{ .Values.xc.serviceName }}
+        image: "{{ .Values.xc.imageName }}:{{ .Values.xc.imageTag }}"
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        ports:
+        - containerPort: {{ .Values.xc.servicePort }}
+      imagePullSecrets:
+        - name: {{ .Values.pullSecret }}
+

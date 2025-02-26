@@ -1,0 +1,58 @@
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    service: {{ .Values.nassitxc.serviceName }}
+  # namespace: {{ .Values.nassitxc.nameSpace }}
+  name: {{ .Values.nassitxc.serviceName }}
+spec:
+  type: NodePort
+  ports:
+    - port: {{ .Values.nassitxc.servicePort }}
+      targetPort: {{ .Values.nassitxc.servicePort }}
+      nodePort: {{ .Values.nassitxc.nodePort }}
+      name: {{ .Values.nassitxc.serviceName }}
+  selector:
+    service: {{ .Values.nassitxc.serviceName }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    service: {{ .Values.nassitxc.serviceName }}
+  name: {{ .Values.nassitxc.serviceName }}
+spec:
+  selector:
+    matchLabels:
+      service: {{ .Values.nassitxc.serviceName }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.applicationName }}
+        component: {{ .Values.nassitxc.serviceName }}
+        service: {{ .Values.nassitxc.serviceName }}
+    spec:
+      containers:
+      - name: {{ .Values.nassitxc.serviceName }}
+        image: "{{ .Values.nassitxc.imageName }}:{{ .Values.nassitxc.imageTag }}"
+        imagePullPolicy: {{ .Values.imagePullPolicy }}
+        env:
+          - name: DB_HOST
+            value: "{{ .Values.nassitxc.environment.DB_HOST }}"
+          - name: DB_PORT
+            value: "{{ .Values.nassitxc.environment.DB_PORT }}"
+          - name: DB_PASS
+            value: "{{ .Values.nassitxc.environment.DB_PASS }}"
+          - name: DB_USER
+            value: "{{ .Values.nassitxc.environment.DB_USER }}"
+          - name: DB_NAME
+            value: "{{ .Values.nassitxc.environment.DB_NAME }}"
+          - name: WILDFLY_USER
+            value: "{{ .Values.nassitxc.environment.WILDFLY_USER }}"
+          - name: WILDFLY_PASS
+            value: {{ .Values.nassitxc.environment.WILDFLY_PASS }}
+        command: [ "sh", "-c", "/opt/jboss/wildfly/configure_wildfly.sh" ]
+        ports:
+        - containerPort: {{ .Values.nassitxc.servicePort }}
+      imagePullSecrets:
+        - name: {{ .Values.pullSecret }}
