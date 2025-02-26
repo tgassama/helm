@@ -10,7 +10,7 @@ xc:
     servicePort: 8080
     imageName: registry.gitlab.com/systechlimited/fm/xe
     imageTag: latest
-    nodePort: 30050
+    nodePort: 30057
 
 nassitxc:
     replicas: 1
@@ -28,4 +28,4 @@ nassitxc:
         DB_NAME: "fundmaster_xc_uat1?currentSchema=fundmaster"
         WILDFLY_USER: "admin"
         WILDFLY_PASS: "Admin@123"
-    nodePort: 30051
+    nodePort: 30056
