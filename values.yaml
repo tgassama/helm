@@ -15,7 +15,6 @@ xc:
 nassitxc:
     replicas: 1
     serviceName: nassitxc
-    # nameSpace: nassit
     servicePort: 8080
     imageName: registry.gitlab.com/systechlimited/fm/xe/xc-nassit
     imageTag: v1.0.3
