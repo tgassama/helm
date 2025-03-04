@@ -23,7 +23,7 @@ nassitxc:
         DB_HOST: "10.182.16.60"
         DB_PORT: "5555"
         DB_PASS: "dc@masterdb"
-        DB_USER: "Postgres"
+        DB_USER: "postgres"
         DB_NAME: "fundmasterxc"
         WILDFLY_USER: "admin"
         WILDFLY_PASS: "Admin@123"
