@@ -27,4 +27,4 @@ nassitxc:
         DB_NAME: "fundmasterxc"
         WILDFLY_USER: "admin"
         WILDFLY_PASS: "Admin@123"
-    nodePort: 30056
+    nodePort: 30057
